@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,16 +33,23 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import uk.ac.tees.mad.jobs.mainapp.model.JobInfo
+import uk.ac.tees.mad.jobs.mainapp.viewmodel.MainViewmodel
 import uk.ac.tees.mad.jobs.ui.theme.JobsNJobsTheme
 import uk.ac.tees.mad.jobs.ui.theme.poppinsFamily
 import java.util.Locale
 
 @Composable
 fun AddNewJob(
+    mainViewmodel: MainViewmodel,
     modifier: Modifier = Modifier
 ) {
 
     var title by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+    var skills by remember { mutableStateOf("") }
+    var maxBudget by remember { mutableStateOf("") }
+
 
     val context = LocalContext.current
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
@@ -144,9 +152,9 @@ fun AddNewJob(
         OutlinedTextField(
             modifier = modifier
                 .fillMaxWidth(0.85f),
-            value = title,
+            value = description,
             onValueChange = {
-                title = it
+                description = it
             },
             placeholder = {
                 Text(
@@ -171,9 +179,9 @@ fun AddNewJob(
         OutlinedTextField(
             modifier = modifier
                 .fillMaxWidth(0.85f),
-            value = title,
+            value = skills,
             onValueChange = {
-                title = it
+                skills = it
             },
             placeholder = {
                 Text(
@@ -197,9 +205,9 @@ fun AddNewJob(
         OutlinedTextField(
             modifier = modifier
                 .fillMaxWidth(0.85f),
-            value = title,
+            value = maxBudget,
             onValueChange = {
-                title = it
+                maxBudget = it
             },
             placeholder = {
                 Text(
@@ -223,15 +231,22 @@ fun AddNewJob(
             textAlign = TextAlign.Center
         )
 
+        Spacer(modifier = modifier.weight(1f))
+
+        Button(
+            onClick = {
+                val jobInfo = JobInfo(
+                    title = title,
+                    description = description,
+                    requiredSkills = skills,
+                    maxBudget = maxBudget,
+                    location = employerLocation
+                )
+                mainViewmodel.addNewJob(jobInfo)
+            }
+        ) { }
+
         Spacer(modifier = modifier.weight(10f))
 
-    }
-}
-
-@PreviewLightDark
-@Composable
-fun AddNewJobPreview(){
-    JobsNJobsTheme {
-        AddNewJob()
     }
 }

@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import uk.ac.tees.mad.jobs.authentication.viewmodel.AuthViewmodel
+import uk.ac.tees.mad.jobs.mainapp.viewmodel.MainViewmodel
 import uk.ac.tees.mad.jobs.ui.navigation.CentralNavigation
 import uk.ac.tees.mad.jobs.ui.theme.JobsNJobsTheme
 
@@ -23,6 +24,7 @@ import uk.ac.tees.mad.jobs.ui.theme.JobsNJobsTheme
 class MainActivity : ComponentActivity() {
 
     private val authViewmodel by viewModels<AuthViewmodel>()
+    private val mainViewmodel by viewModels<MainViewmodel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +36,8 @@ class MainActivity : ComponentActivity() {
             JobsNJobsTheme {
                 CentralNavigation(
                     navController,
-                    authViewmodel
+                    authViewmodel,
+                    mainViewmodel
                 )
             }
         }

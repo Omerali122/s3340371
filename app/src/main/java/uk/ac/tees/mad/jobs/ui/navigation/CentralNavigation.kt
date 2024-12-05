@@ -6,9 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import uk.ac.tees.mad.jobs.authentication.viewmodel.AuthViewmodel
+import uk.ac.tees.mad.jobs.mainapp.viewmodel.MainViewmodel
 import uk.ac.tees.mad.jobs.ui.authentication.LogInScreen
 import uk.ac.tees.mad.jobs.ui.authentication.SignUpScreen
 import uk.ac.tees.mad.jobs.ui.authentication.SplashScreen
+import uk.ac.tees.mad.jobs.ui.mainapp.AddNewJob
 import uk.ac.tees.mad.jobs.ui.mainapp.EditProfileScreen
 import uk.ac.tees.mad.jobs.ui.mainapp.HomeScreen
 import uk.ac.tees.mad.jobs.ui.mainapp.ProfileScreen
@@ -17,7 +19,8 @@ import uk.ac.tees.mad.jobs.ui.mainapp.ProfileScreen
 @Composable
 fun CentralNavigation(
     navController: NavHostController,
-    authViewmodel: AuthViewmodel
+    authViewmodel: AuthViewmodel,
+    mainViewmodel: MainViewmodel
 ) {
     NavHost(
         navController = navController,
@@ -60,7 +63,7 @@ fun CentralNavigation(
             route = "home_graph"
         ) {
             composable("home_screen") {
-                HomeScreen(navController)
+                HomeScreen(navController, mainViewmodel)
             }
 
             composable("profile_screen") {
@@ -69,6 +72,10 @@ fun CentralNavigation(
 
             composable("edit_profile_screen") {
                 EditProfileScreen(authViewmodel, navController)
+            }
+
+            composable("add_new_job") {
+                AddNewJob(mainViewmodel = mainViewmodel)
             }
         }
     }
