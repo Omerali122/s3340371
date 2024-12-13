@@ -3,6 +3,7 @@ package uk.ac.tees.mad.jobs.ui.mainapp
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -65,6 +66,16 @@ fun AddNewJob(
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 location?.let {
                     userLocation = LatLng(it.latitude, it.longitude)
+                    val geocoder = Geocoder(context, Locale.getDefault())
+                    val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                    if (!addresses.isNullOrEmpty()){
+                        val address = addresses[0]
+                        employerLocation = address.locality+", "+address.adminArea
+                    }else{
+                        Toast.makeText(context, "Location not found", Toast.LENGTH_SHORT).show()
+                    }
+                    Log.i("The Location: ", "The current location is $employerLocation")
+
                 }
             }
         } else {
@@ -82,15 +93,6 @@ fun AddNewJob(
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 location?.let {
                     userLocation = LatLng(it.latitude, it.longitude)
-                    val geocoder = Geocoder(context, Locale.getDefault())
-                    val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
-                    if (!addresses.isNullOrEmpty()){
-                        val address = addresses[0]
-                        employerLocation = address.locality+", "+address.adminArea
-                    }else{
-                        Toast.makeText(context, "Location not found", Toast.LENGTH_SHORT).show()
-                    }
-
                 }
             }
         } else {
