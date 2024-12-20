@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavHostController
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import uk.ac.tees.mad.jobs.mainapp.model.JobInfo
@@ -43,6 +44,7 @@ import java.util.Locale
 @Composable
 fun AddNewJob(
     mainViewmodel: MainViewmodel,
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
 
@@ -74,7 +76,7 @@ fun AddNewJob(
                     }else{
                         Toast.makeText(context, "Location not found", Toast.LENGTH_SHORT).show()
                     }
-                    Log.i("The Location: ", "The current location is $employerLocation")
+                    Log.i("The Location: ", "The current location is: $addresses $employerLocation")
 
                 }
             }
@@ -93,6 +95,15 @@ fun AddNewJob(
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 location?.let {
                     userLocation = LatLng(it.latitude, it.longitude)
+                    val geocoder = Geocoder(context, Locale.getDefault())
+                    val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                    if (!addresses.isNullOrEmpty()){
+                        val address = addresses[0]
+                        employerLocation = address.locality+", "+address.adminArea
+                    }else{
+                        Toast.makeText(context, "Location not found", Toast.LENGTH_SHORT).show()
+                    }
+                    Log.i("The Location: ", "The current location is: $addresses $employerLocation")
                 }
             }
         } else {
@@ -245,8 +256,14 @@ fun AddNewJob(
                     location = employerLocation
                 )
                 mainViewmodel.addNewJob(jobInfo)
+                navController.popBackStack()
+
             }
-        ) { }
+        ) {
+            Text(
+                text = "Add Job!!"
+            )
+        }
 
         Spacer(modifier = modifier.weight(10f))
 

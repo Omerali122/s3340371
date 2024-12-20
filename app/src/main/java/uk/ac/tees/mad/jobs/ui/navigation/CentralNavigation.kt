@@ -80,7 +80,7 @@ fun CentralNavigation(
             }
 
             composable("add_new_job") {
-                AddNewJob(mainViewmodel = mainViewmodel)
+                AddNewJob(mainViewmodel = mainViewmodel, navController)
             }
 
             composable(

@@ -4,19 +4,24 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -52,46 +57,45 @@ fun ProfileScreen(
         authViewmodel.fetchCurrentUser()
     }
 
+
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ){
-        Spacer(modifier = Modifier.weight(4F))
-        GlideImage(
+
+        Box(
             modifier = Modifier
-                .height(300.dp)
-                .aspectRatio(1f, matchHeightConstraintsFirst = true)
-                .border(
-                    1.dp,
-                    Color.DarkGray,
-                    shape = CircleShape
-                )
-                .padding(1.dp)
-                .clip(CircleShape),
-            model = currentUser?.profilePictureUrl,
-            contentDescription = "",
-            failure = placeholder(painter = painterResource(R.drawable.avatar))
-        )
-
-        Spacer(modifier = Modifier.weight(1F))
-
-        Button(
-            colors = ButtonDefaults.buttonColors(
-                contentColor = Color.DarkGray,
-                containerColor = Color.Transparent
-            ),
-            border = BorderStroke(1.dp, Color.Black),
-            onClick = {
-                navController.navigate("edit_profile_screen")
-            }
+                .fillMaxWidth()
+                .background(Color(0xFF9EB1F4)),
+            contentAlignment = Alignment.BottomCenter
         ) {
-            Text(
-                text = "Edit Profile",
-                fontFamily = poppinsFamily,
-                fontSize = 15.sp
-            )
+
+            Spacer(modifier = Modifier.height(70.dp))
+            Box(
+                modifier = Modifier
+                    .size(300.dp)
+                    .background(Color.White, CircleShape)
+                    .padding(3.dp)
+            ) {
+                GlideImage(
+                    modifier = Modifier
+                        .height(300.dp)
+                        .aspectRatio(1f, matchHeightConstraintsFirst = true)
+                        .border(
+                            1.dp,
+                            Color.DarkGray,
+                            shape = CircleShape
+                        )
+                        .padding(1.dp)
+                        .clip(CircleShape),
+                    model = currentUser?.profilePictureUrl,
+                    contentDescription = "",
+                    failure = placeholder(painter = painterResource(R.drawable.avatar))
+                )
+            }
         }
 
         Spacer(modifier = Modifier.weight(1F))
@@ -103,17 +107,17 @@ fun ProfileScreen(
             fontWeight = FontWeight.Bold
         )
 
-        Text(
-            modifier = Modifier.fillMaxWidth(0.85f),
-            text = "Name",
-            fontFamily = poppinsFamily,
-            fontSize = 18.sp
-        )
-        Card(
-            modifier = Modifier.fillMaxWidth(0.88f),
-            border = BorderStroke(1.dp, Color.Black),
-            elevation = CardDefaults.elevatedCardElevation(10.dp)
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ){
+            Text(
+                text = "Name: ",
+                fontFamily = poppinsFamily,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+
             currentUser?.name?.let {
                 Text(
                     modifier = Modifier
@@ -125,17 +129,19 @@ fun ProfileScreen(
             }
         }
 
-        Text(
-            modifier = Modifier.fillMaxWidth(0.85f),
-            text = "Highest Qualification",
-            fontFamily = poppinsFamily,
-            fontSize = 18.sp
-        )
-        Card(
-            modifier = Modifier.fillMaxWidth(0.88f),
-            border = BorderStroke(1.dp, Color.Black),
-            elevation = CardDefaults.elevatedCardElevation(10.dp)
+        HorizontalDivider(modifier = Modifier.fillMaxWidth(0.8f), thickness = 2.dp)
+
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ){
+            Text(
+                text = "Highest Qualification: ",
+                fontFamily = poppinsFamily,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+
             currentUser?.highestQualification?.let {
                 Text(
                     modifier = Modifier
@@ -147,28 +153,32 @@ fun ProfileScreen(
             }
         }
 
-        Spacer(modifier = Modifier.weight(1F))
+        HorizontalDivider(modifier = Modifier.fillMaxWidth(0.8f), thickness = 2.dp)
 
-        Text(
-            modifier = Modifier.fillMaxWidth(0.85f),
-            text = "Email",
-            fontFamily = poppinsFamily,
-            fontSize = 18.sp
-        )
-        Card(
-            modifier = Modifier.fillMaxWidth(0.88f),
-            border = BorderStroke(1.dp, Color.Black),
-            elevation = CardDefaults.elevatedCardElevation(10.dp)
-        ) {
-            currentUser?.let {
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ){
+            Text(
+                text = "Email: ",
+                fontFamily = poppinsFamily,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            currentUser?.email?.let {
                 Text(
-                    modifier = Modifier.padding(10.dp),
-                    text = it.email,
+                    modifier = Modifier
+                        .padding(10.dp),
+                    text = it,
                     fontFamily = poppinsFamily,
                     fontSize = 18.sp
                 )
             }
         }
+
+        HorizontalDivider(modifier = Modifier.fillMaxWidth(0.8f), thickness = 2.dp)
+
 
         Spacer(modifier = Modifier.weight(1F))
 
@@ -193,6 +203,26 @@ fun ProfileScreen(
                 text = "Logout",
                 fontSize = 16.sp,
                 fontFamily = poppinsFamily
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1F))
+
+        Button(
+            modifier = Modifier.fillMaxWidth(0.8f),
+            colors = ButtonDefaults.buttonColors(
+                contentColor = Color.DarkGray,
+                containerColor = Color.Transparent
+            ),
+            border = BorderStroke(1.dp, Color.Black),
+            onClick = {
+                navController.navigate("edit_profile_screen")
+            }
+        ) {
+            Text(
+                text = "Edit Profile",
+                fontFamily = poppinsFamily,
+                fontSize = 15.sp
             )
         }
 

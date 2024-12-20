@@ -12,6 +12,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -144,22 +146,37 @@ fun EditProfileScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){
-        Spacer(modifier = Modifier.weight(3f))
-        GlideImage(
+        Box(
             modifier = Modifier
-                .height(300.dp)
-                .aspectRatio(1f, matchHeightConstraintsFirst = true)
-                .border(
-                    1.dp,
-                    Color.DarkGray,
-                    shape = CircleShape
+                .fillMaxWidth()
+                .background(Color(0xFF9EB1F4)),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+
+            Spacer(modifier = Modifier.height(70.dp))
+            Box(
+                modifier = Modifier
+                    .size(300.dp)
+                    .background(Color.White, CircleShape)
+                    .padding(3.dp)
+            ) {
+                GlideImage(
+                    modifier = Modifier
+                        .height(300.dp)
+                        .aspectRatio(1f, matchHeightConstraintsFirst = true)
+                        .border(
+                            1.dp,
+                            Color.DarkGray,
+                            shape = CircleShape
+                        )
+                        .padding(1.dp)
+                        .clip(CircleShape),
+                    model = currentUser?.profilePictureUrl,
+                    contentDescription = "",
+                    failure = placeholder(painter = painterResource(R.drawable.avatar))
                 )
-                .padding(1.dp)
-                .clip(CircleShape),
-            model = currentUser?.profilePictureUrl,
-            contentDescription = "",
-            failure = placeholder(painter = painterResource(R.drawable.avatar))
-        )
+            }
+        }
 
         Spacer(modifier = Modifier.weight(1f))
 

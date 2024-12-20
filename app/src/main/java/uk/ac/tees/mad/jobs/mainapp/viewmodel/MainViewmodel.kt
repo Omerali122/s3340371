@@ -45,6 +45,7 @@ class MainViewmodel @Inject constructor(
             firestore.collection("jobs")
                 .add(jobInfo)
                 .addOnSuccessListener {
+                    getAllJobs()
                     Log.i("Add New Job: ", "A new job is added successfully in the db")
                 }
                 .addOnFailureListener {
@@ -52,5 +53,22 @@ class MainViewmodel @Inject constructor(
                 }
         }
     }
+
+    fun searchJobsByTitle(title: String) {
+        viewModelScope.launch {
+            firestore.collection("jobs")
+                .whereGreaterThanOrEqualTo("title", title)
+                .whereLessThanOrEqualTo("title", title + "\uf8ff")
+                .get()
+                .addOnSuccessListener { documents ->
+                    _allJobs.value = documents.toObjects(JobInfo::class.java)
+                    Log.i("Search Jobs: ", "Jobs found: ${documents.size()}")
+                }
+                .addOnFailureListener { exception ->
+                    Log.i("Search Jobs: ", "Search failed with error ${exception.message}")
+                }
+        }
+    }
+
 
 }
