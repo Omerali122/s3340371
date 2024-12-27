@@ -166,7 +166,7 @@ class AuthViewmodel @Inject constructor(
                         val imageLink = it.toString()
 
                         val userData = hashMapOf(
-                            "profilePicture" to imageLink)
+                            "profilePictureUrl" to imageLink)
                         firestore.collection("users")
                             .document(userId)
                             .update(userData as Map<String, Any>)
