@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "313929771861",
+    "project_id": "jobsnjobs-5bbcb",
+    "storage_bucket": "jobsnjobs-5bbcb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313929771861:android:2ceeeaa39a8406a61c5ddc",
+        "android_client_info": {
+          "package_name": "uk.ac.tees.mad.jobs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXmnKCSchTJrun_z3QmeZK2iIANgyBK28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
