@@ -12,11 +12,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import uk.ac.tees.mad.jobs.authentication.model.AuthResponse
+import uk.ac.tees.mad.jobs.authentication.model.UserInfo
 import javax.inject.Inject
 
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(
+class AuthViewmodel @Inject constructor(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage
@@ -45,7 +46,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun LoginUser(email: String, password: String){
+    fun loginUser(email: String, password: String){
         viewModelScope.launch {
             _authState.value = AuthResponse.Loading
 
@@ -66,7 +67,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun RegisterUser(user: UserInfo, password: String){
+    fun registerUser(user: UserInfo, password: String){
         viewModelScope.launch {
             _authState.value = AuthResponse.Loading
 
@@ -134,6 +135,7 @@ class AuthViewModel @Inject constructor(
                 val updatedUser = UserInfo(
                     name = userInfo.name,
                     email = userInfo.email,
+                    highestQualification = userInfo.highestQualification,
                     profilePictureUrl = userInfo.profilePictureUrl,
                 )
 
