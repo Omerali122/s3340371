@@ -181,7 +181,7 @@ fun SignUpScreen(
         Text(
             modifier = Modifier
                 .fillMaxWidth(0.8f),
-            text = "Name",
+            text = "Highest Qualification",
             fontFamily = poppinsFamily,
             fontSize = 16.sp
         )
@@ -274,6 +274,7 @@ fun SignUpScreen(
                     val newUser = UserInfo(
                         name = name,
                         email = email,
+                        highestQualification = highestQualification,
                         profilePictureUrl = ""
                     )
                     authViewmodel.registerUser(newUser, password)

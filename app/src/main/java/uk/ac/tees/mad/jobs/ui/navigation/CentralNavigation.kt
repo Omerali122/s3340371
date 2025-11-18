@@ -9,6 +9,8 @@ import uk.ac.tees.mad.jobs.authentication.viewmodel.AuthViewmodel
 import uk.ac.tees.mad.jobs.ui.authentication.LogInScreen
 import uk.ac.tees.mad.jobs.ui.authentication.SignUpScreen
 import uk.ac.tees.mad.jobs.ui.authentication.SplashScreen
+import uk.ac.tees.mad.jobs.ui.mainapp.HomeScreen
+import uk.ac.tees.mad.jobs.ui.mainapp.ProfileScreen
 
 
 @Composable
@@ -57,7 +59,11 @@ fun CentralNavigation(
             route = "home_graph"
         ) {
             composable("home_screen") {
+                HomeScreen(navController)
+            }
 
+            composable("profile_screen") {
+                ProfileScreen(authViewmodel, navController)
             }
         }
     }
