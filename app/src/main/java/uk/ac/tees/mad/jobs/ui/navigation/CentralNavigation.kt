@@ -9,6 +9,7 @@ import uk.ac.tees.mad.jobs.authentication.viewmodel.AuthViewmodel
 import uk.ac.tees.mad.jobs.ui.authentication.LogInScreen
 import uk.ac.tees.mad.jobs.ui.authentication.SignUpScreen
 import uk.ac.tees.mad.jobs.ui.authentication.SplashScreen
+import uk.ac.tees.mad.jobs.ui.mainapp.EditProfileScreen
 import uk.ac.tees.mad.jobs.ui.mainapp.HomeScreen
 import uk.ac.tees.mad.jobs.ui.mainapp.ProfileScreen
 
@@ -64,6 +65,10 @@ fun CentralNavigation(
 
             composable("profile_screen") {
                 ProfileScreen(authViewmodel, navController)
+            }
+
+            composable("edit_profile_screen") {
+                EditProfileScreen(authViewmodel, navController)
             }
         }
     }
