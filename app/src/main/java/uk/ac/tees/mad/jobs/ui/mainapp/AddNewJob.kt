@@ -2,6 +2,7 @@ package uk.ac.tees.mad.jobs.ui.mainapp
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +34,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import uk.ac.tees.mad.jobs.ui.theme.JobsNJobsTheme
 import uk.ac.tees.mad.jobs.ui.theme.poppinsFamily
+import java.util.Locale
 
 @Composable
 fun AddNewJob(
@@ -40,11 +43,11 @@ fun AddNewJob(
 
     var title by remember { mutableStateOf("") }
 
-
     val context = LocalContext.current
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     var userLocation by remember { mutableStateOf<LatLng?>(null) }
     var hasLocationPermission by remember { mutableStateOf(false) }
+    var employerLocation by remember { mutableStateOf("") }
 
     val locationPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -71,6 +74,15 @@ fun AddNewJob(
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 location?.let {
                     userLocation = LatLng(it.latitude, it.longitude)
+                    val geocoder = Geocoder(context, Locale.getDefault())
+                    val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                    if (!addresses.isNullOrEmpty()){
+                        val address = addresses[0]
+                        employerLocation = address.locality+", "+address.adminArea
+                    }else{
+                        Toast.makeText(context, "Location not found", Toast.LENGTH_SHORT).show()
+                    }
+
                 }
             }
         } else {
@@ -198,6 +210,17 @@ fun AddNewJob(
             },
             shape = RoundedCornerShape(15.dp),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+        )
+
+        Spacer(modifier = modifier.weight(1f))
+
+        Text(
+            modifier = modifier
+                .fillMaxWidth(),
+            text = employerLocation,
+            fontSize = 17.sp,
+            fontFamily = poppinsFamily,
+            textAlign = TextAlign.Center
         )
 
         Spacer(modifier = modifier.weight(10f))
